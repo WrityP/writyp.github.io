@@ -69,7 +69,6 @@ Duel.prototype.attack = function(){
 	}
 	this.setOpponentAction();
 	this.updateStatus();
-	this.isGameOver();
 };
 
 Duel.prototype.feint = function(){
@@ -88,7 +87,6 @@ Duel.prototype.feint = function(){
 	}
 	this.setOpponentAction();
 	this.updateStatus();
-	this.isGameOver();
 };
 
 Duel.prototype.parry = function(){
@@ -107,7 +105,6 @@ Duel.prototype.parry = function(){
 	}
 	this.setOpponentAction();
 	this.updateStatus();
-	this.isGameOver();
 };
 
 $(document).ready(function(){
