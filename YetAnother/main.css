@@ -1,0 +1,8 @@
+#attack{color:red;cursor:pointer;}
+#feint{color:blue;cursor:pointer;}
+#parry{color:green;cursor:pointer;}
+div{text-align:center;}
+#results{margin:5% 0 5% 0;}
+#status span{color:red;}
+.winner{text-decoration: underline;color:green;}
+.loser{text-decoration: underline;color:red;}
