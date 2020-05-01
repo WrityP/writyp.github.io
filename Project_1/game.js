@@ -51,6 +51,7 @@ var Character = function(id){
 }
 
 Character.prototype.updateHP = function(){
+	if(this.hp<0){this.hp = 0;}
 	newheight=Math.round(100-this.hp/this.max_hp*100)+"%";
 	console.log(newheight);
 	$(this.screen+" .health_bar div").css('height',newheight);
