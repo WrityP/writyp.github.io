@@ -177,9 +177,11 @@ Character.prototype.setAction = function(action,adversary){
 	}
 	if(this.hp<1){
 		$('svg path').attr('d',defeat_path).css('fill','violet');
+		$("#bottom_half").append("<br/><span style='color:violet'>Your vision fades...</span>");
 	}
 	else if(adversary.hp<1){
 		$('svg path').attr('d',win_path).css('fill','gold');
+		$("#bottom_half").append("<br/><span style='color:gold'>You have vanquished your foe!</span>");
 	}
 };
 
