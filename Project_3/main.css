@@ -29,5 +29,5 @@ h1{color:white;position:relative;height:5%;margin-top:5%;margin:0;}
 .opponent_action svg path{fill:black;}
 #models{display:none;}
 
-#top_half{position:absolute;height:60%;top:0;width:100%;}
-#bottom_half{position:absolute;height:40%;width:100%;bottom:0;overflow:auto;background:black;color:white;padding:20px;font-size:18pt;}
+#top_half{position:absolute;height:60%;top:0;width:100%;left:0;}
+#bottom_half{position:absolute;height:40%;width:100%;bottom:0;overflow:auto;background:black;color:white;padding:20px;font-size:18pt;left:0;}
