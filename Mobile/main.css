@@ -1,0 +1,98 @@
+*{box-sizing:border-box;}
+
+
+/*body{height:796px;width:432px;overflow:hidden;background-color:black;border:1px solid red;color:white;margin:70px 700px;padding:5px;}*/
+body{background-color:black;padding:5px;}
+
+#attack{color:red;cursor:pointer;}
+#feint{color:blue;cursor:pointer;}
+#parry{color:green;cursor:pointer;}
+/*div{text-align:center;}*/
+#results{margin:5% 0 5% 0;}
+#status span{color:red;}
+.winner{text-decoration: underline;color:green;}
+.loser{text-decoration: underline;color:red;}
+svg{background:black;border:4px outset #bbb;}
+svg path{fill:inherit;transition:fill 1s ease-in-out;}
+
+#player_screen{position:absolute;top:0;left:0;width:25%;height:100%;background:black;}
+#opponent_screen{position:absolute;top:0;right:0;width:25%;height:100%;background:black;transition:width 2s ease-in-out;}
+#middle_screen{position:absolute;top:0;left:25%;width:50%;height:100%;background:darkgrey;}
+.health_bar{width:25px;height:90%;border:2px outset gold;position:relative;top:5%;background:red;color:black;font-weight:bold;overflow:hidden;}
+#player_screen .health_bar{left:10px;}
+#opponent_screen .health_bar{right:10px;margin-left:auto;top:-95%;}
+.health_bar div{transition:height 2s ease-in-out;background:black;width:100%;height:100%;}
+.actions,.rewards{width:80%;height:100%;position:relative;}
+#player_screen .actions,#player_screen .rewards{position:relative;top:-85%;left:45px;overflow:auto;}
+.rewards{display:none;}
+#opponent_screen .actions{position:relative;top:5%;overflow:auto;}
+h1{color:white;position:relative;height:5%;margin-top:5%;margin:0;}
+.rest{color:white;position:relative;height:95%;}
+#player_screen svg{cursor:pointer;}
+
+.player_action{fill:black;}
+.opponent_action{fill:black;}
+#models{display:none;}
+
+#top_half{position:absolute;height:60%;top:0;width:100%;left:0;}
+#bottom_half{position:absolute;height:40%;width:100%;bottom:0;overflow:hidden;background:black;color:white;padding:20px;font-size:18pt;left:0;}
+#log,#info,#stats,#story_panel{display:none;}
+
+svg text{fill:gold;font-size:180px;font-family:'arial';font-weight:bold;}
+
+.rewards svg{border-color:red;}
+svg.passive{border-radius:0;border-color:gold;}
+
+.active{border-radius:30px;}
+
+#story_panel,#bottom_half>div{
+	padding:10px;
+	background:#222;
+	height:100%;
+	width:100%;
+	position:relative;
+	top:0%;
+	right:0;
+	overflow:auto;
+	transition:top 1s ease-in-out;
+}
+#story_panel h1{
+	margin:3%;
+}
+
+.own_log_entry .avatar{
+	float:left;
+	margin:0 2% 0 0;
+}
+.hostile_log_entry .avatar{
+	float:right;
+	margin: 0 0 0 2%;
+}
+.hostile_log_entry .name{
+	color:red;
+	font-weight: bold;
+}
+.hostile_log_entry{
+	text-align:right;
+	border-top:1px solid red;
+	overflow:auto;
+	margin-bottom: 2%;
+	color:white;
+}
+.own_log_entry .name{
+	color:cyan;
+	font-weight: bold;
+}
+.own_log_entry{
+	text-align:left;
+	border-top:1px solid cyan;
+	overflow:auto;
+	margin-bottom: 2%;
+	color:white;
+}
+.action{
+	font-style: italic;
+}
+.avatar{
+	width:20%;
+}
