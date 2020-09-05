@@ -1,4 +1,4 @@
-*{box-sizing:border-box;font-size:12pt;}
+*{box-sizing:border-box;font-size:12pt;max-height: 999999px;}
 
 body{background-color:black;}
 
