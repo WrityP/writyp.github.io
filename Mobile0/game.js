@@ -1,7 +1,7 @@
 characters_stylesheet = document.styleSheets[1];
 characters = [];
 
-defense_colors = ['black','#b87333','silver','gold'];
+defense_colors = ['black','#b87333','silver','gold','cyan'];
 
 createSVG = function(classes,path,fill='white',bonus="",bonus_fill="lightgreen",charges="",charges_fill="gold"){
 	let $c = $('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d=""></path><text x="0" y="180" stroke="black" stroke-width="10" class="charges"></text><text x="300" y="480" stroke="black" stroke-width="10" class="bonus"></text></svg>');
@@ -71,7 +71,7 @@ class Character {
 		line_object[h+'_subject']=gender_pronouns[this.gender]['subject'];
 		line_object[h+'_object']=gender_pronouns[this.gender]['object'];
 		line_object[h+'_possessive']=gender_pronouns[this.gender]['possessive'];
-		line_object[h+'_possessive_p']=gender_pronouns[this.gender]['possessive_p'];
+		line_object[h+'_possessiv_p']=gender_pronouns[this.gender]['possessiv_p'];
 		return line_object;
 	}
 
@@ -93,7 +93,7 @@ class Character {
 	}
 
 	get_header(){
-		let $p = $('<div class="log_header"><span class="name">'+this.name.capitalize()+'</span></div>');
+		let $p = $('<div class="log_header"><span class="name">'+this.name+'</span></div>');
 		$p.append(createSVG('status death',paths.dead,'white'));
 		for(let i = 0; i<this.max_hp; i++){
 			$p.append(createSVG('status health',paths.heart,'white'));

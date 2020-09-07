@@ -98,7 +98,7 @@ svg.status{
 	border-top: 1px solid white;
 	text-align:center;
 }
-.text::first-letter{
+.text::first-letter, .name::first-letter{
 	text-transform:capitalize;
 }
 .health{
