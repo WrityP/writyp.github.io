@@ -76,6 +76,7 @@ class Character {
 	}
 
 	render_log(text){
+		$('#log').append("You're here!");
 		if($('#log .log_entry:last-child').hasClass('ch'+this.id)){
 			$('#log .log_entry:last-child').append($('<div class="text">'+text+'</div>'));
 		}
@@ -231,6 +232,6 @@ $(document).ready(function(){
 	new Character(goblin_form);
 	player.render_log('"I have finally found you, beast!"');
 	characters[1].render_log('"Have you come to die as well, human?"');
-	characters[2].render_log('<i>Something hideous jumps from a nearby bush.</i><br/>"Do you want me to carve her up, boss?"');
+	characters[2].render_log('<i>Something hideous jumps out of a nearby bush.</i><br/>"Do you want me to carve her up, boss?"');
 	player.start_turn();
 });
