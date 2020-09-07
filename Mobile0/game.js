@@ -15,9 +15,11 @@ scrollToBottom = function(){
 	}
 }
 
-player_form = {name:'the human villager',color:'gold',avatar:'./images/human0.png',gender:"feminine",max_hp:3};
+player_form = {name:'the human villager',color:'gold',avatar:'./images/human0.png',gender:"feminine",max_hp:4};
 
 orc_form = {name:'the orc warrior',avatar:'./images/orc0.png',color:'red',gender:'masculine',max_hp:6};
+
+goblin_form = {name:'the goblin bandit',avatar:'./images/goblin0.png',color:'green',gender:'masculine',max_hp:2,defense:1};
 
 class Character {
 	constructor(form){
@@ -29,7 +31,8 @@ class Character {
 		this.affiliation = 'hostile';
 
 		this.max_hp = (form.max_hp)?form.max_hp:3;
-		this.defense = 0;
+		this.defense = (form.defense)?form.defense:0;
+		this.actions = 1;
 
 		this.hp = this.max_hp;
 
@@ -81,6 +84,8 @@ class Character {
 			$d.append(this.get_header());
 			$d.append($('<div class="text">'+text+'</div>'));
 			$('#log').append($d);
+			let target_id = this.id;
+			$d.on('click',function(){player.target_character(target_id);});
 		}
 		this.render_status();
 		scrollToBottom();
@@ -113,7 +118,6 @@ class Character {
 		if(this.defense<3){
 			this.defense++
 			this.render_log(fill_log_line(defend_strings,this.get_line_object('D')));
-			if(this.defense == 3){$('#actions .defend').hide();}
 			return true;
 		}
 		else{
@@ -162,6 +166,7 @@ class Player extends Character{
 	constructor(){
 		super(player_form);
 		this.affiliation = 'own';
+		this.target;
 	}
 
 	take_damage(amount){
@@ -170,21 +175,62 @@ class Player extends Character{
 			$('#actions').hide();
 		}
 	}
+
+	attack(){
+		super.attack(this.target);
+		if(this.target.hp < 1){attack_button.css('border-color','gray').css('fill','gray').unbind();}
+		this.actions--;
+		if(this.actions === 0){
+			this.end_turn();
+		}
+	}
+
+	defend(){
+		super.defend();
+		if(this.defense>2){defend_button.css('border-color','gray').css('fill','gray').unbind();}
+		this.actions--;
+		if(this.actions === 0){
+			this.end_turn();
+		}
+	}
+
+	target_character(id){
+		if(id != this.id){
+			this.target = characters[id];
+			if(this.target.hp > 0){
+				attack_button.css('border-color',this.target.color).css('fill','white').on('click',function(){player.attack()});
+			}
+			else{
+				attack_button.css('border-color','gray').css('fill','gray').unbind();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	start_turn(){
+		console.log("hey");
+		this.actions = 2;
+		if(characters[1].hp > 0 || characters[2].hp > 0){
+		}
+	}
+
+	end_turn(){
+		characters[1].attack(player);
+		characters[2].attack(player);
+		this.start_turn();
+	}
 }
 
 $(document).ready(function(){
 	player = new Player();
+	attack_button = createSVG('attack',paths.attack,'gray').css('border-color','gray').appendTo('#actions');
+	defend_button = createSVG('defend',paths.shield,'white').appendTo('#actions').on('click',function(){player.defend();});
+
 	new Character(orc_form);
+	new Character(goblin_form);
 	player.render_log('"I have finally found you, beast!"');
 	characters[1].render_log('"Have you come to die as well, human?"');
-	$('#actions').append(createSVG('attack',paths.attack,'white'));
-	$('#actions').append(createSVG('defend',paths.shield,'white'));
-	$('#actions .attack').on('click',function(){
-		player.attack(characters[1]);
-		characters[1].attack(player);
-	});
-	$('#actions .defend').on('click',function(){
-		player.defend();
-		characters[1].attack(player);
-	});
+	characters[2].render_log('<i>Something hideous jumps from a nearby bush.</i><br/>"Do you want me to carve her up, boss?"');
+	player.start_turn();
 });
