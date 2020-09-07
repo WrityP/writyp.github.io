@@ -231,4 +231,5 @@ $(document).ready(function(){
 	characters[1].render_log('"Have you come to die as well, human?"');
 	characters[2].render_log('<i>Something hideous jumps out of a nearby bush.</i><br/>"Do you want me to carve her up, boss?"');
 	player.start_turn();
+	player.render_log('"Does this work on phones?"');
 });
