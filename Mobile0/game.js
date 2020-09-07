@@ -211,8 +211,6 @@ class Player extends Character{
 	start_turn(){
 		console.log("hey");
 		this.actions = 2;
-		if(characters[1].hp > 0 || characters[2].hp > 0){
-		}
 	}
 
 	end_turn(){
