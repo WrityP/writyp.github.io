@@ -76,7 +76,6 @@ class Character {
 	}
 
 	render_log(text){
-		$('#log').append("You're here!");
 		if($('#log .log_entry:last-child').hasClass('ch'+this.id)){
 			$('#log .log_entry:last-child').append($('<div class="text">'+text+'</div>'));
 		}
@@ -117,7 +116,7 @@ class Character {
 
 	defend(){
 		if(this.defense<3){
-			this.defense++
+			this.defense++;
 			this.render_log(fill_log_line(defend_strings,this.get_line_object('D')));
 			return true;
 		}
