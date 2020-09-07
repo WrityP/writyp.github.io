@@ -12,7 +12,7 @@ gender_pronouns = {
 fill_log_line = function(library,args){
 	let line = library.random();
 	Object.keys(args).forEach(function(e){
-		line = line.replace(e,args[e]);
+		line = line.replaceAll(e,args[e]);
 	});
 	return line;
 };
