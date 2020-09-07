@@ -12,7 +12,7 @@ gender_pronouns = {
 fill_log_line = function(library,args){
 	let line = library.random();
 	Object.keys(args).forEach(function(e){
-		line = line.replace(e,args[e]);
+		line = line.replaceAll(e,args[e]);
 	});
 	return line;
 }
@@ -20,7 +20,7 @@ fill_log_line = function(library,args){
 attack_strings = [
 	"A_name slashes at D_name, nicking D_possessive arm.",
 	"A_name jumps on D_name's back and batters D_possessive head.",
-	"D_name doesn't have time to dodge A_name's powerful blow. <i>CRACK!</i> D_name's nose is broken."
+	"D_name doesn't have time to dodge A_name's powerful blow. <i>CRACK!</i>"
 ];
 
 miss_strings = [
