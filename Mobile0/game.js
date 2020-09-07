@@ -227,7 +227,7 @@ $(document).ready(function(){
 
 	new Character(orc_form);
 	new Character(goblin_form);
-	player.render_log(fill_log_line(defend_strings,this.get_line_object('D')));
+	player.render_log(fill_log_line(defend_strings,player.get_line_object('D')));
 	//player.render_log('"I have finally found you, beast!"');
 	characters[1].render_log('"Have you come to die as well, human?"');
 	characters[2].render_log('<i>Something hideous jumps out of a nearby bush.</i><br/>"Do you want me to carve her up, boss?"');
