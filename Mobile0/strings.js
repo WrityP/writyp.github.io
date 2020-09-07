@@ -33,10 +33,10 @@ execute_strings = [
 	"A_name plunges A_possessive sword in D_name's heart, killing D_object instantly!",
 	"A_name shoves A_possessive fist directly into D_name's belly and pulls out D_possessive guts!",
 	'"Look into my eyes, I like to see the light go out," A_name whispers to D_name after breaking D_possessive neck.'
-]
+];
 
 defend_strings = [
 	"D_name moves back and forth, becoming harder to hit.",
 	"D_name gets a better handle on D_possessive shield.",
 	"D_name inspects D_possessive surroundings, making the battlefield D_possessiv_p."
-]
+];
