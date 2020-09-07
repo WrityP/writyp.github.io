@@ -1,4 +1,7 @@
+characters_stylesheet = document.styleSheets[1];
 characters = [];
+
+defense_colors = ['black','#b87333','silver','gold'];
 
 createSVG = function(classes,path,fill='white',bonus="",bonus_fill="lightgreen",charges="",charges_fill="gold"){
 	let $c = $('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d=""></path><text x="0" y="180" stroke="black" stroke-width="10" class="charges"></text><text x="300" y="480" stroke="black" stroke-width="10" class="bonus"></text></svg>');
@@ -8,86 +11,114 @@ createSVG = function(classes,path,fill='white',bonus="",bonus_fill="lightgreen",
 
 scrollToBottom = function(){
 	if($('#overall_container').height()<$('#inner_container').height()){
-		$('#overall_container').animate({scrollTop:$('#inner_container').height()},'slow');
+		$('#overall_container').animate({scrollTop:$('#inner_container').height()},0);
 	}
 }
 
-player_form = {name:'The Human Villager',color:'gold',avatar:'./images/human0.png'};
+player_form = {name:'the human villager',color:'gold',avatar:'./images/human0.png',gender:"feminine",max_hp:3};
 
-orc_form = {name:'The Orc Warrior',avatar:'./images/orc0.png',color:'red'};
-
-attack_strings = [
-	"ATTACKER slashes at DEFENDANT, nicking their arm.",
-	"ATTACKER rams their shoulder into DEFENDANT's chest.",
-	"DEFENDANT's vision blur after receiving a mean uppercut from ATTACKER."
-];
-
-miss_strings = [
-	"ATTACKER misses DEFENDANT by a long shot.",
-	"DEFENDANT barely manages to deflect ATTACKER's blade.",
-	"DEFENDANT and ATTACKER meet in a clash of swords, but neither is wounded."
-];
-
-execute_strings = [
-	"ATTACKER plunges their sword in DEFENDANT's heart, killing them instantly!",
-	"DEFENDANT's head flies off into a nearby tree after receiving a powerful blow from ATTACKER!"
-]
-
-fill_log_line = function(library,args){
-	line = library.random();
-	Object.keys(args).forEach(function(e){
-		console.log(args[e]);
-		line = line.replace(e,args[e]);
-	});
-	return line;
-}
+orc_form = {name:'the orc warrior',avatar:'./images/orc0.png',color:'red',gender:'masculine',max_hp:6};
 
 class Character {
 	constructor(form){
 		this.id = characters.length;
 		this.name = form.name;
+		this.gender = (form.gender)?form.gender:'plural';
 		this.avatar = form.avatar;
 		this.color = (form.color)?form.color:'#'+(Math.random()*0xFFFFFF<<0).toString(16);
 		this.affiliation = 'hostile';
 
-		this.max_hp = 5;
+		this.max_hp = (form.max_hp)?form.max_hp:3;
+		this.defense = 0;
 
 		this.hp = this.max_hp;
+
+		this.style = {};
+		this.create_style();
 
 		characters.push(this);
 	}
 
+	die(){
+		$('.ch'+this.id).addClass('dead');
+		this.update_color('gray');
+	}
+
+	create_style(){
+		characters_stylesheet.insertRule('.ch'+this.id+' .name, .text .ch'+this.id+'{}',0);
+		this.style.name = characters_stylesheet.cssRules[0].style;
+		this.style.name.color = this.color;
+
+		characters_stylesheet.insertRule('.log_entry.ch'+this.id+'{}',0);
+		this.style.log_entry = characters_stylesheet.cssRules[0].style;
+		this.style.log_entry['border-color'] = this.color;
+
+		return true;
+	}
+
+	update_color(color){
+		this.color = color;
+		this.style.name.color = this.color;
+		this.style.log_entry['border-color'] = this.color;
+	}
+
+	get_line_object(h){
+		let line_object = {};
+		line_object[h+'_name']='<span class="ch'+this.id+'">'+this.name+'</span>';
+		line_object[h+'_subject']=gender_pronouns[this.gender]['subject'];
+		line_object[h+'_object']=gender_pronouns[this.gender]['object'];
+		line_object[h+'_possessive']=gender_pronouns[this.gender]['possessive'];
+		line_object[h+'_possessive_p']=gender_pronouns[this.gender]['possessive_p'];
+		return line_object;
+	}
+
 	render_log(text){
-		let $d = $('<div class="'+this.affiliation+' log_entry ch'+this.id+'"><img class="avatar" src="'+this.avatar+'"/></div>');
-		$d.append(this.get_header());
-		$d.append($('<div class="text">'+text+'</div>'));
-		$('#log').append($d);
-		$('.ch'+this.id).css('border-color',this.color).find('.name').css('color',this.color);
+		if($('#log .log_entry:last-child').hasClass('ch'+this.id)){
+			$('#log .log_entry:last-child').append($('<div class="text">'+text+'</div>'));
+		}
+		else{
+			let $d = $('<div class="'+this.affiliation+' log_entry ch'+this.id+'"><img class="avatar" src="'+this.avatar+'"/></div>');
+			$d.append(this.get_header());
+			$d.append($('<div class="text">'+text+'</div>'));
+			$('#log').append($d);
+		}
 		this.render_status();
 		scrollToBottom();
 		return true;
 	}
 
 	get_header(){
-		let $p = $('<div class="log_header"><span class="name">'+this.name+'</span></div>');
+		let $p = $('<div class="log_header"><span class="name">'+this.name.capitalize()+'</span></div>');
 		$p.append(createSVG('status death',paths.dead,'white'));
 		for(let i = 0; i<this.max_hp; i++){
 			$p.append(createSVG('status health',paths.heart,'white'));
 		}
+		$p.append(createSVG('status defense',paths.shield,'black'));
 		return $p;
 	}
 
 	render_status(){
 		if(this.hp < 1){
-			$('.ch'+this.id).addClass('dead');
+			this.die();
 		}
 		else{
 			$('.ch'+this.id+' .health').css('fill','gray');
 			$('.ch'+this.id).find('.health:lt('+Math.floor(this.hp)+')').css('fill','red');
-			console.log('.ch'+this.id+' .health:lt('+Math.floor(this.hp)+')');
+			$('.ch'+this.id+' .defense').css('fill',defense_colors[this.defense]);
 		}
-
 		return true;
+	}
+
+	defend(){
+		if(this.defense<3){
+			this.defense++
+			this.render_log(fill_log_line(defend_strings,this.get_line_object('D')));
+			if(this.defense == 3){$('#actions .defend').hide();}
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	attack(target, technique='none'){
@@ -95,9 +126,10 @@ class Character {
 
 		let result;
 		let damage = 1;
-		let accuracy = 60;
+		let accuracy = Math.floor(60-target.defense*16);
+		console.log((1-accuracy/100));
 
-		let log_arguments = {'ATTACKER':this.name,'DEFENDANT':target.name};
+		let log_arguments = jQuery.extend(this.get_line_object('A'),target.get_line_object('D'));
 		let result_log_line = '';
 
 		if(result = Math.random()>(1-accuracy/100)){
@@ -143,9 +175,16 @@ class Player extends Character{
 $(document).ready(function(){
 	player = new Player();
 	new Character(orc_form);
+	player.render_log('"I have finally found you, beast!"');
+	characters[1].render_log('"Have you come to die as well, human?"');
 	$('#actions').append(createSVG('attack',paths.attack,'white'));
-	$('#actions svg').on('click',function(){
+	$('#actions').append(createSVG('defend',paths.shield,'white'));
+	$('#actions .attack').on('click',function(){
 		player.attack(characters[1]);
+		characters[1].attack(player);
+	});
+	$('#actions .defend').on('click',function(){
+		player.defend();
 		characters[1].attack(player);
 	});
 });
