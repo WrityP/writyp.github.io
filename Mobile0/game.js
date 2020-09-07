@@ -115,7 +115,9 @@ class Character {
 	}
 
 	defend(){
+		player.render_log('Say "I like you" if you see this.');
 		if(this.defense<3){
+			player.render_log('Say "very very much" if you see this.');
 			this.defense++;
 			this.render_log(fill_log_line(defend_strings,this.get_line_object('D')));
 			return true;
@@ -186,7 +188,6 @@ class Player extends Character{
 	}
 
 	defend(){
-		player.render_log('"Does this work on phones?2"');
 		super.defend();
 		if(this.defense>2){defend_button.css('border-color','gray').css('fill','gray').unbind();}
 		this.actions--;
