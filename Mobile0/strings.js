@@ -1,6 +1,6 @@
 String.prototype.capitalize = function() {
-  return this.charAt(0).toUpperCase() + this.slice(1)
-}
+  return this.charAt(0).toUpperCase() + this.slice(1);
+};
 
 gender_pronouns = {
 	'masculine':{'subject':'he','object':'him','possessive':'his','possessiv_p':'his'},
@@ -15,7 +15,7 @@ fill_log_line = function(library,args){
 		line = line.replaceAll(e,args[e]);
 	});
 	return line;
-}
+};
 
 attack_strings = [
 	"A_name slashes at D_name, nicking D_possessive arm.",
