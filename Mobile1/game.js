@@ -258,8 +258,8 @@ class Player extends Character{
 	}
 
 	end_turn(){
-		characters[1].use_action('basic_attack',player);
-		characters[2].use_action('basic_attack',player);
+		if(characters[1].hp>0){characters[1].use_action('basic_attack',player);}
+		if(characters[2].hp>0){characters[2].use_action('basic_attack',player);}
 		this.start_turn();
 	}
 
